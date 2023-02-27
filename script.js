@@ -1,31 +1,47 @@
-const date = new Date();
+const chatMessages = document.getElementById('chat-messages');
+const sendButton = document.getElementById('send-button');
+const messageInput = document.getElementById('message-input');
+const errorMessage = document.getElementById('error-message');
 
-const el1 = document.getElementById("1");
+const date = new Date;
 
-const date1 = (`0${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`)
+const user = prompt('Գրեք ձեր անունը.');
 
-el1.innerHTML = date1;
+const sendMessage = () => {
+  const message = messageInput.value.trim();
 
-//
-// 
-const el2 = document.getElementById("2");
+  if (!message) {
+    errorMessage.innerHTML = 'Ինփութը չի կարող լինել դատարկ';
+    errorMessage.style.display = 'block';
 
-const date2 = (`0${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`)
+    setTimeout(() => {
+      errorMessage.style.display = 'none';
+    },3000);
+    return;
+  } else { 
+    errorMessage.style.display = 'none';
+  }
 
-el2.innerHTML = date2;
+  const messageUser = document.createElement('div');
+  messageUser.classList.add('user');
+  messageUser.textContent = (`${user} | ${date.getDate()}.0${date.getMonth()+1}.${date.getFullYear()} - ${date.getHours()} : ${date.getMinutes()}`);
+  chatMessages.appendChild(messageUser);
+  
 
-// 
-// 
-const el3 = document.getElementById("3");
+  const messageEl = document.createElement('div');
+  messageEl.classList.add('chat-message');
+  messageEl.textContent = message;
 
-const date3 = (`0${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`)
+  chatMessages.appendChild(messageEl);
 
-el3.innerHTML = date3;
+  messageInput.value = '';
 
-// 
-//
-const el4 = document.getElementById("4");
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+};
+sendButton.addEventListener('click', sendMessage);
 
-const date4 = (`0${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`)
-
-el4.innerHTML = date4;
+messageInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    sendMessage();
+  }
+});
